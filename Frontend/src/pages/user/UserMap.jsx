@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEnhancedPopup } from "../../components/PopupContent";
-import MarineVisualizer from "../../marineVisualizer/MarineVisualizer";
 import mindanaoPorts from "../../data/ports.json";
+import MarineVisualizer from "../../marineVisualizer/MarineVisualizer";
 
 export default function UserPage() {
   const mapRef = useRef(null);
@@ -910,22 +910,21 @@ export default function UserPage() {
         );
       }
     };
+const initializeMap = () => {
+  const L = window.L;
+  if (!L) return console.error("Leaflet failed to load");
 
-    const initializeMap = () => {
-      const L = window.L;
-      if (!L) return console.error("Leaflet failed to load");
+  const map = L.map("map").setView([8.0, 125.0], 6);
+  mapRef.current = map;
 
-      const map = L.map("map").setView([8.0, 125.0], 6);
-      mapRef.current = map;
-
-      // Base tiles with dark theme
-      L.tileLayer(
-        "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-        {
-          attribution:
-            '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
-        }
-      ).addTo(map);
+  // Base tiles with dark theme
+  L.tileLayer(
+    `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${import.meta.env.VITE_STADIA_API_KEY}`,
+    {
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+    }
+  ).addTo(map);
 
       // Weather layers
       const tempLayer = L.tileLayer(

@@ -435,20 +435,20 @@ export default function UserPage() {
     };
 
     const initializeMap = () => {
-      const L = window.L;
-      if (!L) return console.error("Leaflet failed to load");
+  const L = window.L;
+  if (!L) return console.error("Leaflet failed to load");
 
-      const map = L.map("map").setView([8.0, 125.0], 6);
-      mapRef.current = map;
+  const map = L.map("map").setView([8.0, 125.0], 6);
+  mapRef.current = map;
 
-      // Base map
-      L.tileLayer(
-        "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-        {
-          attribution:
-            '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
-        }
-      ).addTo(map);
+  // Base tiles with dark theme
+  L.tileLayer(
+    `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${import.meta.env.VITE_STADIA_API_KEY}`,
+    {
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+    }
+  ).addTo(map);
 
       // OpenWeatherMap layers
       const tempLayer = L.tileLayer(
